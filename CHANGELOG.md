@@ -1,0 +1,3 @@
+# CHANGELOG WP-Whise
+
+## v1.0.0 - 04/07/2018
