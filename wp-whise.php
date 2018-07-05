@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: AppSaloon - Boilerplate
+Plugin Name: Whise integration
 Plugin URI:
 Description: Synchronise WordPress with Whise service
 Version: 1.0

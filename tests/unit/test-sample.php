@@ -1,6 +1,6 @@
 <?php
 
-namespace appsaloon\tests\unit;
+namespace wp_whise\tests\unit;
 
 /**
  * Class SampleTest
