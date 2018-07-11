@@ -8,6 +8,7 @@ namespace wp_whise\tests\unit\controller;
  * @package SampleTest
  */
 
+use wp_whise\controller\adapter\Whise_Adapter;
 use wp_whise\controller\Whise_Controller;
 
 /**
@@ -88,4 +89,35 @@ class Test_Whise_Controller extends \WP_UnitTestCase {
 
 		$this->assertTrue( is_array( $response ) );
 	}
+
+	/**
+	 * @covers \wp_whise\controller\Whise_Controller::get_estates_with_no_project
+	 */
+	function test_get_estates_with_no_project() {
+		$object                = new \stdClass();
+		$object->d             = new \stdClass();
+		$object->d->__type     = 'EstateServiceGetEstateListResponse:Whoman.Estate';
+		$object->d->EstateList = array();
+
+		$this->whise_adapter->method( 'get' )->willReturn( $object );
+
+		$this->whise_controller = new Whise_Controller( $this->whise_adapter, $this->log, static::CLIENT_ID );
+
+		$response = $this->whise_controller->get_estates_with_no_project();
+
+		$this->assertTrue( is_array($response) );
+	}
+
+	/**
+	 * Check the returned value from webservice
+	 */
+//	function test_get_estate_list_live() {
+//		$this->whise_controller = new Whise_Controller( new Whise_Adapter(), $this->log, static::CLIENT_ID );
+//
+//		$response = $this->whise_controller->get_estates();
+//
+//		var_dump( $response );
+//
+//		$this->assertTrue( is_array( $response ) );
+//	}
 }

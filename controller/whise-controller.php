@@ -72,6 +72,44 @@ class Whise_Controller {
 	}
 
 	/**
+	 * Returns projects from the webservice
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_projects() {
+		$args = '{"ClientId":"' . $this->client_id . '","Page":0,"RowsPerPage":10,"Language":"nl-BE", "TopParent": true}';
+
+		$response = $this->whise_adapter->get( 'GetEstateList', 'EstateServiceGetEstateListRequest', $args );
+
+		if ( is_wp_error( $response ) ) {
+			return $this->error( $response );
+		}
+
+		return $response->d->EstateList;
+	}
+
+	/**
+	 * Returns estates that are not part of projects
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_estates_with_no_project() {
+		$args = '{"ClientId":"' . $this->client_id . '","Page":0,"RowsPerPage":10,"Language":"nl-BE","HasParent":false,"IsParent":false,"CanHaveChildren":false}';
+
+		$response = $this->whise_adapter->get( 'GetEstateList', 'EstateServiceGetEstateListRequest', $args );
+
+		if ( is_wp_error( $response ) ) {
+			return $this->error( $response );
+		}
+
+		return $response->d->EstateList;
+	}
+
+	/**
 	 * @param $response \WP_Error
 	 *
 	 * @return bool
