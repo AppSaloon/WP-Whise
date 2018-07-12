@@ -22,9 +22,30 @@ class Test_Whise_Estates_Cron_Controller extends \WP_UnitTestCase {
 		$this->whise_controller = new Whise_Controller( $this->whise_adapter, $this->log, static::CLIENT_ID );
 	}
 
+	/**
+	 * @covers \wp_whise\controller\cron\Estates_Cron_Controller::get_estates
+	 */
 	function test_get_estates() {
-		$cron = new Estates_Cron_Controller( $this->whise_controller );
+		$cron = new Estates_Cron_Controller( $this->whise_controller, $this->log );
 
-		$cron->load_estates();
+		$cron->get_estates();
+
+		$this->assertEquals( 10, count( $cron->estates ) );
+		$this->assertTrue( is_array( $cron->estates ) );
+	}
+
+	/**
+	 * @covers \wp_whise\controller\cron\Estates_Cron_Controller::process_estates
+	 */
+	function test_process_estates() {
+		$cron = new Estates_Cron_Controller( $this->whise_controller, $this->log );
+
+		$cron->get_estates();
+
+		$result = $cron->process_estates();
+
+		$this->assertTrue( is_array( $result ) );
+		$this->assertTrue( is_array( $result['created'] ) );
+		$this->assertEquals( 10, count( $result['created'] ) );
 	}
 }

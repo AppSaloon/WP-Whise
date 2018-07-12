@@ -5,18 +5,24 @@ class Database_Log_Controller implements Log_Controller_Interface {
 
 	/**
 	 * table name without prefix
+	 *
+	 * @since 1.0
 	 */
-	const TABLE_NAME = 'wp_whise_log';
+	const TABLE_NAME = 'whise_log';
 
 	/**
 	 * Array where the log data gets saved
 	 *
 	 * @var array
+	 *
+	 * @since 1.0
 	 */
 	private $data = array();
 
 	/**
 	 * Creating of logging table
+	 *
+	 * @since 1.0
 	 */
 	public function create_log_table() {
 		global $wpdb;
@@ -47,6 +53,8 @@ class Database_Log_Controller implements Log_Controller_Interface {
 	 * @param bool $file string  In which file did the call came from
 	 * @param bool $function string  In which function
 	 * @param bool $line string  In which line
+	 *
+	 * @since 1.0
 	 */
 	public function debug( $msg, $file = false, $function = false, $line = false ) {
 		$this->add( 'debug', $msg, $file, $function, $line );
@@ -59,6 +67,8 @@ class Database_Log_Controller implements Log_Controller_Interface {
 	 * @param bool $file string  In which file did the call came from
 	 * @param bool $function string  In which function
 	 * @param bool $line string  In which line
+	 *
+	 * @since 1.0
 	 */
 	public function info( $msg, $file = false, $function = false, $line = false ) {
 		$this->add( 'info', $msg, $file, $function, $line );
@@ -71,6 +81,8 @@ class Database_Log_Controller implements Log_Controller_Interface {
 	 * @param bool $file string  In which file did the call came from
 	 * @param bool $function string  In which function
 	 * @param bool $line string  In which line
+	 *
+	 * @since 1.0
 	 */
 	public function warn( $msg, $file = false, $function = false, $line = false ) {
 		$this->add( 'warn', $msg, $file, $function, $line );
@@ -83,6 +95,8 @@ class Database_Log_Controller implements Log_Controller_Interface {
 	 * @param bool $file string  In which file did the call came from
 	 * @param bool $function string  In which function
 	 * @param bool $line string  In which line
+	 *
+	 * @since 1.0
 	 */
 	public function error( $msg, $file = false, $function = false, $line = false ) {
 		$this->add( 'error', $msg, $file, $function, $line );
@@ -95,6 +109,8 @@ class Database_Log_Controller implements Log_Controller_Interface {
 	 * @param bool $file string  In which file did the call came from
 	 * @param bool $function string  In which function
 	 * @param bool $line string  In which line
+	 *
+	 * @since 1.0
 	 */
 	public function fatal( $msg, $file = false, $function = false, $line = false ) {
 		$this->add( 'fatal', $msg, $file, $function, $line );
@@ -108,6 +124,8 @@ class Database_Log_Controller implements Log_Controller_Interface {
 	 * @param       $file     string  In which file did the call came from
 	 * @param bool $function string  In which function
 	 * @param       $line     string  In which line
+	 *
+	 * @since 1.0
 	 */
 	public function add( $msg_type, $msg, $file, $function, $line ) {
 		$backtrace = debug_backtrace();
@@ -129,6 +147,8 @@ class Database_Log_Controller implements Log_Controller_Interface {
 	 * @param bool $function string  In which function
 	 * @param       $line       string  In which line
 	 * @param       $timestamp  string  Timestamp of the log
+	 *
+	 * @since 1.0
 	 */
 	public function log_to_data( $msg_type, $msg, $file, $function, $line, $timestamp ) {
 		$this->data[] = array(
@@ -144,6 +164,8 @@ class Database_Log_Controller implements Log_Controller_Interface {
 	/**
 	 * Saving log records to database
 	 * This function will be executed as the last PHP function.
+	 *
+	 * @since 1.0
 	 */
 	public function log_to_database() {
 		if ( isset( $this->data ) && is_array( $this->data ) && defined('WP_DEBUG') && count($this->data) != 0 ) {
@@ -172,9 +194,11 @@ class Database_Log_Controller implements Log_Controller_Interface {
 	}
 
 	/**
-	 * Remove logs older than a week
+	 * Remove logs older than a month
 	 *
-	 * TODO add WP_DEUG_DAYS to user end documentation
+	 * @since 1.0
+	 *
+	 * @TODO WP_DEBUG_DAYS mention this variable in the documentation
 	 */
 	public function remove_old_rows() {
 		global $wpdb;
