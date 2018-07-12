@@ -40,7 +40,7 @@ class Plugin_Boilerplate {
 	 * @param Container_Interface $container
 	 */
 	public function __construct( Container_Interface $container ) {
-		//$container->container->get( 'init_config' );
+		$container->container->get( 'init_config' );
 	}
 }
 
