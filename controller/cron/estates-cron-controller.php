@@ -23,8 +23,7 @@ class Estates_Cron_Controller {
 	/**
 	 * GET estates from the webservice Whise
 	 *
-	 * @since 1.0.0
-	 */
+	 * @since 1.0.0 */
 	public function get_estates() {
 		$this->estates = $this->whise_controller->get_projects();
 	}

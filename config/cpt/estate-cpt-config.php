@@ -37,9 +37,7 @@ class Estate_Cpt_Config {
 			'capability_type'    => 'post',
 			'hierarchical'       => false,
 			'taxonomies'         => array( 'category' ),
-			'supports'           => array(
-				'title'
-			)
+			'supports'           => array( 'title' )
 		);
 
 		register_post_type( 'estate', $args_sale );
