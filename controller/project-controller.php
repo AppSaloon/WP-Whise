@@ -1,39 +1,41 @@
 <?php
 
-namespace wp_whise\controller\cron;
+namespace wp_whise\controller;
 
-use wp_whise\controller\log\Database_Log_Controller;
-use wp_whise\controller\Whise_Controller;
+use wp_whise\controller\log\Log_Controller_Interface;
 use wp_whise\lib\Helper;
 
-class Estates_Cron_Controller {
+class Project_Controller implements Project_Controller_Interface {
 
+	public $whise_controller;
 	public $log;
-
-	protected $whise_controller;
 
 	public $estates;
 
-	public function __construct( Whise_Controller $whise_controller, Database_Log_Controller $log ) {
+	public function __construct( Whise_Controller_Interface $whise_controller, Log_Controller_Interface $log ) {
 		$this->whise_controller = $whise_controller;
-
-		$this->log = $log;
+		$this->log              = $log;
 	}
 
 	/**
-	 * GET estates from the webservice Whise
+	 * Get estates from the Whise service
 	 *
-	 * @since 1.0.0 */
-	public function get_estates() {
-		$this->estates = $this->whise_controller->get_projects();
-	}
-
-	/**
-	 * Process estates
+	 * @return bool
 	 *
 	 * @since 1.0.0
 	 */
-	public function process_estates() {
+	public function get() {
+		$this->estates = $this->whise_controller->get_projects();
+
+		return $this->estates;
+	}
+
+	/**
+	 * Process the estates from the Whise service
+	 *
+	 * @since 1.0.0
+	 */
+	public function process() {
 		if ( false !== $this->estates && is_array( $this->estates ) && isset( $this->estates[0] ) ) {
 			/**
 			 * This will be an array of the processed estates.
@@ -52,7 +54,14 @@ class Estates_Cron_Controller {
 				 *
 				 * @var \wp_whise\model\Whise_Estate
 				 */
-				$whise_estate = Helper::objectToObject( $whise_estate, 'wp_whise\model\Whise_Estate' );
+				$whise_estate = Helper::objectToObject( $whise_estate, 'wp_whise\model\Whise_Project' );
+
+				/**
+				 * Skip projects
+				 */
+				if ( $whise_estate->ParentID == null && $whise_estate->Price == null ) {
+					continue;
+				}
 
 				/**
 				 * Checks if the estate exists
@@ -91,6 +100,4 @@ class Estates_Cron_Controller {
 			return false;
 		}
 	}
-
-
 }

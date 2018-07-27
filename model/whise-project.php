@@ -41,7 +41,7 @@ class Whise_Estate {
 	public function create_wp_post() {
 		$post_arr = array(
 			'post_title'   => $this->Name,
-			'post_content' => '',
+			'post_content' => $this->LongDescription,
 			'post_status'  => 'draft',
 			'post_type'    => 'project'
 		);
@@ -63,7 +63,8 @@ class Whise_Estate {
 	public function update_wp_post( $post_id ) {
 		$post_arr = array(
 			'ID'         => $post_id,
-			'post_title' => $this->Name
+			'post_title' => $this->Name,
+			'post_content' => $this->LongDescription
 		);
 
 		$this->post_id = wp_update_post( $post_arr );
@@ -75,7 +76,11 @@ class Whise_Estate {
 
 	protected function update_meta() {
 		update_post_meta( $this->post_id, '_price', $this->Price );
-		update_post_meta( $this->post_id, '_regular_price', $this->Price );
+		update_post_meta( $this->post_id, '_street', $this->Address1);
+		update_post_meta( $this->post_id, '_city', $this->City);
+		update_post_meta( $this->post_id, '_zip', $this->Zip);
+		update_post_meta( $this->post_id, '_country', $this->Country);
+		update_post_meta( $this->post_id, '_estate_id', $this->EstateID);
 	}
 }
 

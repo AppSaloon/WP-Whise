@@ -80,7 +80,7 @@ class Project_Cpt_Config {
 			'has_archive'        => true,
 			'capability_type'    => 'post',
 			'hierarchical'       => false,
-			'taxonomies'         => array( 'category' ),
+			'taxonomies'         => array(),
 			'supports'           => array( 'title', 'thumbnail', 'editor', 'excerpt' )
 		);
 
@@ -164,6 +164,8 @@ class Project_Cpt_Config {
 		 */
 		$image_ids = wp_parse_id_list( $attachment_ids );
 		$project->set_gallery_image_ids( $image_ids );
+
+		$project->set_post_data( $_POST );
 
 		/**
 		 * Save Project

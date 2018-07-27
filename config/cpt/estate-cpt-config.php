@@ -36,7 +36,7 @@ class Estate_Cpt_Config {
 			'has_archive'        => true,
 			'capability_type'    => 'post',
 			'hierarchical'       => false,
-			'taxonomies'         => array( 'category' ),
+			'taxonomies'         => array(),
 			'supports'           => array( 'title' )
 		);
 

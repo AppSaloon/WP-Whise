@@ -34,7 +34,7 @@ class Test_Whise_Adapter extends \WP_UnitTestCase {
 	 * @covers \wp_whise\controller\adapter\Whise_Adapter::get
 	 */
 	function test_get_estate_list() {
-		$args     = '{"ClientId":"' . static::CLIENT_ID . '","Page":0,"RowsPerPage":10,"Language":"nl-BE"}';
+		$args     = '{"ClientId":"' . static::CLIENT_ID . '","Language":"nl-BE"}';
 		$response = $this->whise->get( 'GetEstateList', 'EstateServiceGetEstateListRequest', $args );
 
 		$this->assertContains( 'EstateServiceGetEstateListResponse:Whoman.Estate', $response->d->__type );
@@ -44,7 +44,7 @@ class Test_Whise_Adapter extends \WP_UnitTestCase {
 	 * @covers \wp_whise\controller\adapter\Whise_Adapter::get
 	 */
 	function test_get_estate_categories() {
-		$args     = '{"ClientId":"' . static::CLIENT_ID . '","Page":0,"RowsPerPage":10,"Language":"nl-BE"}';
+		$args     = '{"ClientId":"' . static::CLIENT_ID . '","Language":"nl-BE"}';
 		$response = $this->whise->get( 'GetCategoryList', 'EstateServiceGetCategoryListRequest', $args );
 
 		$this->assertContains( 'EstateServiceGetCategoryListResponse:Whoman.Estate', $response->d->__type );

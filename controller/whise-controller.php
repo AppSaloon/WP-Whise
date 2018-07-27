@@ -6,7 +6,7 @@ use wp_whise\controller\adapter\Whise_Adapter;
 use wp_whise\controller\adapter\Whise_Adapter_Interface;
 use wp_whise\controller\log\Log_Controller_Interface;
 
-class Whise_Controller {
+class Whise_Controller implements Whise_Controller_Interface {
 
 	/**
 	 * @var Whise_Adapter
@@ -18,6 +18,11 @@ class Whise_Controller {
 	 */
 	public $log;
 
+	/**
+	 * Whise SSID
+	 *
+	 * @var string
+	 */
 	private $client_id;
 
 	/**
@@ -25,12 +30,12 @@ class Whise_Controller {
 	 *
 	 * @param Whise_Adapter_Interface $whise_adapter
 	 * @param Log_Controller_Interface $log
-	 * @param $client_id
+	 * @param string $client_id
 	 */
 	public function __construct( Whise_Adapter_Interface $whise_adapter, Log_Controller_Interface $log, $client_id ) {
 		$this->whise_adapter = $whise_adapter;
-		$this->client_id     = $client_id;
 		$this->log           = $log;
+		$this->client_id     = $client_id;
 	}
 
 	/**
@@ -41,7 +46,7 @@ class Whise_Controller {
 	 * @since 1.0.0
 	 */
 	public function get_estate_categories() {
-		$args = '{"ClientId":"' . $this->client_id . '","Language":"nl-BE","Page":0,"RowsPerPage":30}';
+		$args = '{"ClientId":"' . $this->client_id . '","Language":"nl-BE"}';
 
 		$response = $this->whise_adapter->get( 'GetCategoryList', 'EstateServiceGetCategoryListRequest', $args );
 
@@ -60,7 +65,7 @@ class Whise_Controller {
 	 * @since 1.0.0
 	 */
 	public function get_estates() {
-		$args = '{"ClientId":"' . $this->client_id . '","Page":0,"RowsPerPage":10,"Language":"nl-BE"}';
+		$args = '{"ClientId":"' . $this->client_id . '","Language":"nl-BE"}';
 
 		$response = $this->whise_adapter->get( 'GetEstateList', 'EstateServiceGetEstateListRequest', $args );
 
@@ -72,14 +77,14 @@ class Whise_Controller {
 	}
 
 	/**
-	 * Returns projects from the webservice
+	 * Returns estate projects from whise or returns false if there is an error
 	 *
 	 * @return bool
 	 *
 	 * @since 1.0.0
 	 */
 	public function get_projects() {
-		$args = '{"ClientId":"' . $this->client_id . '","Page":0,"RowsPerPage":10,"Language":"nl-BE", "TopParent": true}';
+		$args = '{"ClientId":"' . $this->client_id . '","Language":"nl-BE","IsTopParent":true}';
 
 		$response = $this->whise_adapter->get( 'GetEstateList', 'EstateServiceGetEstateListRequest', $args );
 
