@@ -43,7 +43,11 @@ class Project_Cpt_Config {
 				'media-models'
 			), WP_WHISE_VERSION );
 
-			wp_enqueue_style( 'whise-gallery-css', WP_WHISE_URL . 'css/admin/gallery.css' );
+			wp_enqueue_script( 'whise-document-js', WP_WHISE_URL . 'js/admin/document.js', array(
+				'media-models'
+			), WP_WHISE_VERSION );
+
+			wp_enqueue_style( 'whise-estate-css', WP_WHISE_URL . 'css/admin/estate.css' );
 		}
 	}
 
@@ -100,6 +104,11 @@ class Project_Cpt_Config {
 			'gallery_build_meta_box'
 		), static::POST_TYPE, 'advanced', 'low' );
 
+		add_meta_box( 'woocommerce-product-documents', __( 'Documents', 'wp_whise' ), array(
+			$this,
+			'documents_build_meta_box'
+		), static::POST_TYPE, 'advanced', 'low' );
+
 		add_meta_box( 'project_meta_box', __( 'Project content', 'wp_whise' ), array(
 			$this,
 			'project_build_meta_box'
@@ -115,6 +124,17 @@ class Project_Cpt_Config {
 	 */
 	public function gallery_build_meta_box( $post ) {
 		include_once WP_WHISE_DIR . 'view/admin/project/gallery.php';
+	}
+
+	/**
+	 * Display gallery meta box for project post type
+	 *
+	 * @param $post
+	 *
+	 * @since 1.0.0
+	 */
+	public function documents_build_meta_box( $post ) {
+		include_once WP_WHISE_DIR . 'view/admin/project/document.php';
 	}
 
 	/**
@@ -164,6 +184,17 @@ class Project_Cpt_Config {
 		 */
 		$image_ids = wp_parse_id_list( $attachment_ids );
 		$project->set_gallery_image_ids( $image_ids );
+
+		/**
+		 * Catch document IDs
+		 */
+		$attachment_ids = isset( $_POST['product_document'] ) ? array_filter( explode( ',', $_POST['product_document'] ) ) : array();
+
+		/**
+		 * Set document IDs
+		 */
+		$document_ids = wp_parse_id_list( $attachment_ids );
+		$project->set_document_ids( $document_ids );
 
 		$project->set_post_data( $_POST );
 

@@ -16,6 +16,7 @@ use wp_whise\lib\Container_Interface;
 
 define( 'WP_WHISE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WP_WHISE_URL', plugin_dir_url( __FILE__ ) );
+define( 'WP_WHISE_FILE', __FILE__ );
 define( 'WP_WHISE_VERSION', '1.0' );
 
 /**

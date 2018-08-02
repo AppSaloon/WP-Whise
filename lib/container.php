@@ -50,11 +50,11 @@ Final class Container implements Container_Interface {
 	 * Build Container
 	 */
 	public function build_container() {
-		$this->builder->addDefinitions( [
+		$this->builder->addDefinitions( array(
 			'plugin_activate'          => DI\object( 'wp_whise\config\Plugin_Activate' ),
 			'plugin_deactivate'        => DI\object( 'wp_whise\config\Plugin_Deactivate' ),
 			'Log_Controller_Interface' => DI\object( 'wp_whise\controller\log\Database_Log_Controller' )
-		] );
+		) );
 
 		$this->container = $this->builder->build();
 	}
@@ -66,7 +66,7 @@ Final class Container implements Container_Interface {
 	 * TODO load Whise API key through settings
 	 */
 	public function set_classes() {
-		$this->container->set( 'init_config', DI\object( 'wp_whise\config\Init_Config' ) );
+		$this->container->set( 'init_config', DI\object( 'wp_whise\config\Init_Config' )->constructor( $this ) );
 
 		$this->container->set( 'Whise_Adapter_Interface', DI\object( 'wp_whise\controller\adapter\Whise_Adapter' ) );
 

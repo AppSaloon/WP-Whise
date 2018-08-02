@@ -44,11 +44,10 @@ Interface Whise_Controller_Interface {
 	public function get_projects();
 
 	/**
-	 * Returns estates that are not part of projects
-	 *
+	 * Returns estates that were last updated the past day
 	 * @return bool
 	 *
 	 * @since 1.0.0
 	 */
-	public function get_estates_with_no_project();
+	public function get_estates_updated_last_day();
 }

@@ -31,7 +31,7 @@ class Category_Controller implements Category_Controller_Interface {
 	}
 
 	/**
-	 * Process the estates from the Whise service
+	 * Process the categories from the Whise service
 	 *
 	 * @since 1.0.0
 	 */
@@ -44,9 +44,13 @@ class Category_Controller implements Category_Controller_Interface {
 
 				if ( isset( $category->SubCategoryList ) && count( $category->SubCategoryList ) != 0 ) {
 					foreach ( Helper::generator( $category->SubCategoryList ) as $sub_category ) {
-						$this->insert_term( $sub_category->Name, $parent_id );
+						$term_id = $this->insert_term( $sub_category->Name, $parent_id );
+
+						update_term_meta( $term_id, '_subcategory_id', $sub_category->SubCategoryId );
 					}
 				}
+
+				update_term_meta( $parent_id, '_category_id', $category->CategoryId );
 			}
 
 			return true;

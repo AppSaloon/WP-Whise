@@ -96,14 +96,16 @@ class Whise_Controller implements Whise_Controller_Interface {
 	}
 
 	/**
-	 * Returns estates that are not part of projects
-	 *
+	 * Returns estates that were last updated the past day
 	 * @return bool
 	 *
 	 * @since 1.0.0
 	 */
-	public function get_estates_with_no_project() {
-		$args = '{"ClientId":"' . $this->client_id . '","Page":0,"RowsPerPage":10,"Language":"nl-BE","HasParent":false,"IsParent":false,"CanHaveChildren":false}';
+	public function get_estates_updated_last_day() {
+		$from = strtotime( '-1 day' ) * 1000;
+		$to   = strtotime( 'now' ) * 1000;
+
+		$args = '{"ClientId":"' . $this->client_id . '","Language":"nl-BE","UpdateDateTimeRange":["/Date(' . $from . ')/", "/Date(' . $to . ')/"]}';
 
 		$response = $this->whise_adapter->get( 'GetEstateList', 'EstateServiceGetEstateListRequest', $args );
 
@@ -118,6 +120,8 @@ class Whise_Controller implements Whise_Controller_Interface {
 	 * @param $response \WP_Error
 	 *
 	 * @return bool
+	 *
+	 * @since 1.0.0
 	 */
 	private function error( $response ) {
 		$msg = $response->get_error_code() . ':' . $response->get_error_message();

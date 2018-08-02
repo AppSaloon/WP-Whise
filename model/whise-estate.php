@@ -2,14 +2,75 @@
 
 namespace wp_whise\model;
 
+use wp_whise\config\cpt\Estate_Cpt_Config;
+use wp_whise\controller\log\Log_Controller_Interface;
+use wp_whise\lib\Helper;
+
 class Whise_Estate {
 
+	/**
+	 * Project ID
+	 *
+	 * @var int
+	 *
+	 * @since 1.0.0
+	 */
 	public $post_id;
+
+	/**
+	 * Post meta from existing Project
+	 * This variable is used to skip updating post meta (expensive query call)
+	 *
+	 * @var array
+	 *
+	 * @since 1.0.0
+	 */
+	protected $post_meta;
+
+	/**
+	 * Term ID for category
+	 *
+	 * @var int
+	 *
+	 * @since 1.0.0
+	 */
+	public $category_id;
+
+	/**
+	 * Term ID for subcategory
+	 *
+	 * @var int
+	 *
+	 * @since 1.0.0
+	 */
+	public $subcategory_id;
+
+	/**
+	 * Logger
+	 *
+	 * @var Log_Controller_Interface
+	 *
+	 * @since 1.0.0
+	 */
+	private $log;
+
+	/**
+	 * Set logger
+	 *
+	 * @param Log_Controller_Interface $log
+	 *
+	 * @since 1.0.0
+	 */
+	public function set_logger( Log_Controller_Interface $log ) {
+		$this->log = $log;
+	}
 
 	/**
 	 * Returns Estate ID
 	 *
 	 * @return mixed
+	 *
+	 * @since 1.0.0
 	 */
 	public function get_estate_id() {
 		return $this->EstateID;
@@ -17,6 +78,8 @@ class Whise_Estate {
 
 	/**
 	 * Returns true if the Estate ID exists in the database
+	 *
+	 * @since 1.0.0
 	 */
 	public function does_post_exist() {
 		$response = false;
@@ -27,7 +90,7 @@ class Whise_Estate {
 		$result = $wpdb->get_results( $query );
 
 		if ( is_array( $result ) && sizeof( $result ) == 1 ) {
-			$response = $result[0]->meta_value;
+			$response = $result[0]->post_id;
 		}
 
 		return $response;
@@ -37,18 +100,27 @@ class Whise_Estate {
 	 * Create new Estate post
 	 *
 	 * @return mixed
+	 *
+	 * @since 1.0.0
 	 */
 	public function create_wp_post() {
 		$post_arr = array(
 			'post_title'   => $this->Name,
-			'post_content' => '',
+			'post_content' => $this->LongDescription,
+			'post_excerpt' => $this->ShortDescription,
 			'post_status'  => 'draft',
-			'post_type'    => 'project'
+			'post_type'    => Estate_Cpt_Config::POST_TYPE
 		);
 
 		$this->post_id = wp_insert_post( $post_arr );
 
-		$this->update_meta();
+		$this->set_taxonomy();
+
+		$this->update_post_metas();
+
+		$this->set_gallery_images();
+
+		$this->set_documents();
 
 		return $this->post_id;
 	}
@@ -59,23 +131,186 @@ class Whise_Estate {
 	 * @param $post_id  Post ID
 	 *
 	 * @return  mixed
+	 *
+	 * @since 1.0.0
 	 */
 	public function update_wp_post( $post_id ) {
+		$this->post_id = $post_id;
+
 		$post_arr = array(
-			'ID'         => $post_id,
-			'post_title' => $this->Name
+			'ID'           => $post_id,
+			'post_title'   => $this->Name,
+			'post_content' => $this->LongDescription,
+			'post_excerpt' => $this->ShortDescription
 		);
 
-		$this->post_id = wp_update_post( $post_arr );
+		wp_update_post( $post_arr );
 
-		$this->update_meta();
+		$this->post_meta = get_post_meta( $this->post_id );
+
+		$this->set_taxonomy();
+
+		$this->update_post_metas();
+
+		$this->set_gallery_images();
+
+		$this->set_documents();
 
 		return $this->post_id;
 	}
 
-	protected function update_meta() {
-		update_post_meta( $this->post_id, '_price', $this->Price );
-		update_post_meta( $this->post_id, '_regular_price', $this->Price );
+	/**
+	 * Set Estate Category taxonomy
+	 *
+	 * @since 1.0.0
+	 */
+	protected function set_taxonomy() {
+		$terms = array();
+
+		if ( $this->category_id !== false ) {
+			$terms[] = $this->category_id;
+		}
+
+		if ( $this->subcategory_id !== false ) {
+			$terms[] = $this->subcategory_id;
+		}
+
+		wp_set_object_terms( $this->post_id, $terms, 'estate-category' );
+	}
+
+	/**
+	 * Update Post meta
+	 *
+	 * @TODO Find better way to update the database table!
+	 *
+	 * @since 1.0.0
+	 */
+	protected function update_post_metas() {
+		$this->update_meta( '_price', $this->Price );
+		$this->update_meta( '_address', $this->Address1 );
+		$this->update_meta( '_address_2', $this->Address2 );
+		$this->update_meta( '_number', $this->Number );
+		$this->update_meta( '_box', $this->Box );
+		$this->update_meta( '_city', $this->City );
+		$this->update_meta( '_zip', $this->Zip );
+		$this->update_meta( '_country', $this->Country );
+		$this->update_meta( '_estate_id', $this->EstateID );
+		$this->update_meta( '_area', $this->Area );
+		$this->update_meta( '_ground_area', $this->GroundArea );
+		$this->update_meta( '_office', $this->Office );
+		$this->update_meta( '_client', $this->Client );
+		$this->update_meta( '_currency', $this->Currency );
+		$this->update_meta( '_created', Helper::get_date_time( $this->CreateDateTime ) );
+		$this->update_meta( '_updated', Helper::get_date_time( $this->UpdateDateTime ) );
+		$this->update_meta( '_price_updated', Helper::get_date_time( $this->PriceChangeDateTime ) );
+		$this->update_meta( '_availability', $this->Availability );
+		$this->update_meta( '_status', $this->Status );
+		$this->update_meta( '_reference_number', $this->ReferenceNumber );
+		$this->update_meta( '_sold_rent_date', Helper::get_date_time( $this->SoldRentDate ) );
+		$this->update_meta( '_put_online_datetime', Helper::get_date_time( $this->PutOnlineDateTime ) );
+		$this->update_meta( '_energy_class', $this->EnergyClass );
+		$this->update_meta( '_energy_value', $this->EnergyValue );
+		$this->update_meta( '_floor', $this->Floor );
+		$this->update_meta( '_investment_estate', $this->InvestmentEstate );
+		$this->update_meta( '_fronts', $this->Fronts );
+		$this->update_meta( '_terrace', $this->Terrace );
+		$this->update_meta( '_garage', $this->Garage );
+		$this->update_meta( '_parking', $this->Parking );
+		$this->update_meta( '_bathrooms', $this->BathRooms );
+		$this->update_meta( '_furnished', $this->Furnished );
+		$this->update_meta( '_garden', $this->Garden );
+		$this->update_meta( '_garden_area', $this->GardenArea );
+		$this->update_meta( '_availability_datetime', Helper::get_date_time( $this->AvailabilityDateTime ) );
+		$this->update_meta( '_parent_id', $this->ParentID );
+	}
+
+	/**
+	 * Update Post Meta
+	 *
+	 * This will be done if the new value is different than old value
+	 * Or if the meta doesn't exist.
+	 *
+	 * @param $db_key       string          The database meta key
+	 * @param $new_value    string|array    The Whise meta value
+	 *
+	 * @since 1.0.0
+	 */
+	protected function update_meta( $db_key, $new_value ) {
+		/**
+		 * Check if meta key exist and if the old value is the same with new value
+		 * else update post meta
+		 */
+		$old_value = ( isset( $this->post_meta[ $db_key ][0] ) ) ? maybe_unserialize( $this->post_meta[ $db_key ][0] ) : false;
+
+		if ( $old_value !== false && $old_value != $new_value ) {
+			update_post_meta( $this->post_id, $db_key, $new_value );
+		} elseif ( $old_value === false && ! empty( $new_value ) ) {
+			/**
+			 * If the meta key doesn't exist
+			 * then create post meta
+			 */
+			add_post_meta( $this->post_id, $db_key, $new_value );
+		}
+	}
+
+	/**
+	 * Updates gallery images
+	 *
+	 * Uploads if image doesn't exist
+	 *
+	 * @since 1.0.0
+	 */
+	protected function set_gallery_images() {
+		if ( isset( $this->Pictures ) && is_array( $this->Pictures ) ) {
+			$gallery_ids = array();
+
+			foreach ( Helper::generator( $this->Pictures ) as $picture ) {
+				$split     = explode( '/', $picture->UrlXXL );
+				$file_name = end( $split );
+
+				if ( ! $gallery_id = Helper::does_attachment_exist( $file_name ) ) {
+					$this->log->info( $file_name . ' does not exist, so we are uploading the image.' );
+					$gallery_ids[] = Helper::upload_image_to_wordpress( $file_name, $picture->UrlXXL, $this->post_id );
+				} else {
+					$this->log->info( $file_name . ' does exist, so we are not uploading the image again.' );
+					$gallery_ids[] = $gallery_id;
+				}
+			}
+
+			$this->log->debug( $gallery_ids );
+
+			$this->update_meta( '_gallery_image_ids', $gallery_ids );
+		}
+	}
+
+	/**
+	 * Updates gallery images
+	 *
+	 * Uploads if image doesn't exist
+	 *
+	 * @since 1.0.0
+	 */
+	protected function set_documents() {
+		if ( isset( $this->Documents ) && is_array( $this->Documents ) ) {
+			$document_ids = array();
+
+			foreach ( Helper::generator( $this->Documents ) as $document ) {
+				$split     = explode( '/', $document->Url );
+				$file_name = end( $split );
+
+				if ( ! $gallery_id = Helper::does_attachment_exist( $file_name ) ) {
+					$this->log->info( $file_name . ' does not exist, so we are uploading the document.' );
+					$document_ids[] = Helper::upload_image_to_wordpress( $file_name, $document->Url, $this->post_id );
+				} else {
+					$this->log->info( $file_name . ' does exist, so we are not uploading the document again.' );
+					$document_ids[] = $gallery_id;
+				}
+			}
+
+			$this->log->debug( $document_ids );
+
+			$this->update_meta( '_document_ids', $document_ids );
+		}
 	}
 }
 

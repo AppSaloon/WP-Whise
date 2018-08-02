@@ -5,6 +5,13 @@ namespace wp_whise\config\cpt;
 class Team_Cpt_Config {
 
 	/**
+	 * POST type
+	 *
+	 * @since 1.0.0
+	 */
+	CONST POST_TYPE = 'team';
+
+	/**
 	 * Team_Cpt_Config constructor.
 	 *
 	 * @since 1.0
@@ -70,6 +77,6 @@ class Team_Cpt_Config {
 			'supports' => array('')
 		);
 
-		register_post_type('team', $args_team);
+		register_post_type(static::POST_TYPE, $args_team);
 	}
 }

@@ -2,7 +2,7 @@
 
 namespace wp_whise\model;
 
-class Project {
+class Estate {
 
 	/**
 	 * Project ID
@@ -84,6 +84,7 @@ class Project {
 		foreach ( $post_data as $key => $value ) {
 			/**
 			 * If unique custom field
+			 * And not advanced custom fields field
 			 */
 			if ( substr( $key, 0, 1 ) === '_'
 			     && substr( $key, 0, 4 ) !== '_acf'
@@ -146,6 +147,19 @@ class Project {
 	 */
 	public function get_document_ids() {
 		return maybe_unserialize( $this->post_meta['_document_ids'][0] );
+	}
+
+	/**
+	 * Returns meta value or false if it does not exist
+	 *
+	 * @param $meta_key
+	 *
+	 * @return bool
+	 *
+	 * @since 1.0.0
+	 */
+	public function get_meta_by_key( $meta_key ) {
+		return ( isset( $this->post_meta[ $meta_key ][0] ) ) ? $this->post_meta[ $meta_key ][0] : false;
 	}
 
 	/**
