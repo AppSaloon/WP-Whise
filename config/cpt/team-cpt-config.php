@@ -19,6 +19,8 @@ class Team_Cpt_Config {
 	public function __construct() {
 		$this->register_taxonomy();
 		$this->register_post_type();
+
+        add_filter('title_save_pre', array($this, 'auto_generate_post_title'));
 	}
 
 	/**
@@ -79,4 +81,19 @@ class Team_Cpt_Config {
 
 		register_post_type(static::POST_TYPE, $args_team);
 	}
+
+    public function auto_generate_post_title($title)
+    {
+        global $post;
+        if (isset($post->ID)) {
+            if (empty($_POST['post_title']) && get_post_type($post->ID) === 'team') {
+                // get the current post ID number
+                $id = get_the_ID();
+                // add ID number with order strong
+                $title = get_field("naam", $id);
+            }
+        }
+        return $title;
+    }
 }
+
