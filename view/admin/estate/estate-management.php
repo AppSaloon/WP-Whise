@@ -49,7 +49,7 @@ $team_link    = false;
 			<?php if ( $project->meta_value == $parent_id ): ?>
 				<?php $project_link = get_edit_post_link( $project->ID ); ?>
 			<?php endif; ?>
-            <option value="<?php echo $project->meta_value; ?>" <?php echo ( $project->meta_value == $parent_id ) ? 'selected="selected"' : ''; ?>><?php echo $project->post_title; ?></option>
+            <option value="<?php echo $project->ID; ?>" <?php echo ( $project->meta_value == $parent_id ) ? 'selected="selected"' : ''; ?>><?php echo $project->post_title; ?></option>
 		<?php endforeach; ?>
     </select>
 
