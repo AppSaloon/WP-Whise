@@ -9,8 +9,6 @@ use wp_whise\controller\Whise_Controller;
 
 class Test_Whise_Estates_Cron_Controller extends \WP_UnitTestCase {
 
-	CONST CLIENT_ID = '1829c9494c7d4340a152';
-
 	protected $whise_adapter;
 
 	protected $log;
@@ -20,7 +18,7 @@ class Test_Whise_Estates_Cron_Controller extends \WP_UnitTestCase {
 	function setUp() {
 		$this->whise_adapter    = new Whise_Adapter();
 		$this->log              = $this->getMockBuilder( 'wp_whise\controller\log\Database_Log_Controller' )->getMock();
-		$this->whise_controller = new Whise_Controller( $this->whise_adapter, $this->log, static::CLIENT_ID );
+		$this->whise_controller = new Whise_Controller( $this->whise_adapter, $this->log, false );
 	}
 
 	/**

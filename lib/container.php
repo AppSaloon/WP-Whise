@@ -75,7 +75,7 @@ Final class Container implements Container_Interface {
 				->constructor(
 					$this->container->get( 'Whise_Adapter_Interface' ),
 					$this->container->get( 'Log_Controller_Interface' ),
-					'1829c9494c7d4340a152'
+					get_option('whise_client_id')
 				)
 		);
 

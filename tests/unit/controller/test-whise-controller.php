@@ -20,8 +20,6 @@ use wp_whise\controller\Whise_Controller;
  */
 class Test_Whise_Controller extends \WP_UnitTestCase {
 
-	CONST CLIENT_ID = '1829c9494c7d4340a152';
-
 	/**
 	 * @var \wp_whise\controller\Whise_Controller
 	 */
@@ -47,7 +45,7 @@ class Test_Whise_Controller extends \WP_UnitTestCase {
 
 		$this->whise_adapter->method( 'get' )->willReturn( $object );
 
-		$this->whise_controller = new Whise_Controller( $this->whise_adapter, $this->log, static::CLIENT_ID );
+		$this->whise_controller = new Whise_Controller( $this->whise_adapter, $this->log, false );
 
 		$response = $this->whise_controller->get_estates();
 

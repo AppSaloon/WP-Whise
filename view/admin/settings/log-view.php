@@ -1,7 +1,7 @@
 <?php
 namespace wp_navision\view\admin;
 
-use wp_whise\config\Log_Config;
+use wp_whise\config\Settings_Config;
 
 ?>
     <div class="wrap">
@@ -16,7 +16,7 @@ use wp_whise\config\Log_Config;
         </form>
 
         <form method="get" id="sortAndFilter" action="">
-            <input type="hidden" name="page" value="<?php echo Log_Config::LOG_PAGE_SLUG; ?>">
+            <input type="hidden" name="page" value="<?php echo Settings_Config::LOG_PAGE_SLUG; ?>">
 
             <label for="selectType">Filter log type: </label>
             <select id="selectType" name="selectType">

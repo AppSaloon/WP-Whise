@@ -157,6 +157,6 @@ class Init_Config {
 	 * @since 1.0.0
 	 */
 	public function add_admin_menu() {
-		new Log_Config();
+		new Settings_Config();
 	}
 }
