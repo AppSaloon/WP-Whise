@@ -50,7 +50,7 @@ class Estate_Cpt_Config {
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'query_var'          => true,
-            'rewrite'            => array('slug' => 'aanbod'),
+            'rewrite'           => array('slug' => 'aanbod'),
 			'has_archive'        => true,
 			'capability_type'    => 'post',
 			'hierarchical'       => false,
