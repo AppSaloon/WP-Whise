@@ -137,6 +137,19 @@ class Project {
 		$this->updated_post_meta['_document_ids'] = $attachment_ids;
 	}
 
+    /**
+     * Returns meta value or false if it does not exist
+     *
+     * @param $meta_key
+     *
+     * @return bool
+     *
+     * @since 1.0.0
+     */
+    public function get_meta_by_key( $meta_key ) {
+        return ( isset( $this->post_meta[ $meta_key ][0] ) ) ? $this->post_meta[ $meta_key ][0] : false;
+    }
+
 	/**
 	 * Returns document IDs
 	 *

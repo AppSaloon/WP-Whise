@@ -113,6 +113,11 @@ class Project_Cpt_Config {
 			$this,
 			'project_build_meta_box'
 		), static::POST_TYPE, 'advanced', 'low' );
+
+        add_meta_box( 'project-management', __( 'Management', 'wp_whise' ), array(
+            $this,
+            'project_management_meta_box'
+        ), static::POST_TYPE, 'side', 'low' );
 	}
 
 	/**
@@ -203,4 +208,15 @@ class Project_Cpt_Config {
 		 */
 		$project->save();
 	}
+
+    /**
+     * Display parent meta box to select teammember
+     *
+     * @param $post
+     *
+     * @since 1.0.0
+     */
+    public function project_management_meta_box( $post ) {
+        include_once WP_WHISE_DIR . 'view/admin/estate/project-management.php';
+    }
 }
