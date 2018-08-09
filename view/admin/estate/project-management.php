@@ -2,7 +2,7 @@
 
 namespace wp_whise\view\admin\project;
 
-use wp_whise\lib\Helper;
+use wp_whise\lib\helper;
 use wp_whise\model\Project;
 
 global $post;
@@ -13,7 +13,7 @@ $estate->set_post( $post->ID );
 
 $team_id = $estate->get_meta_by_key( '_team_id' );
 
-$teams = Helper::get_teams();
+$teams = helper::get_teams();
 
 $team_link    = false;
 

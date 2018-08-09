@@ -5,7 +5,7 @@ namespace wp_whise\lib;
 use wp_whise\config\cpt\Project_Cpt_Config;
 use wp_whise\config\cpt\Team_Cpt_Config;
 
-class Helper {
+class helper {
 
 	/**
 	 * Renames estate response from the webservice to model Estate

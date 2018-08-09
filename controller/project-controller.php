@@ -3,7 +3,7 @@
 namespace wp_whise\controller;
 
 use wp_whise\controller\log\Log_Controller_Interface;
-use wp_whise\lib\Helper;
+use wp_whise\lib\helper;
 
 class Project_Controller implements Project_Controller_Interface {
 
@@ -56,17 +56,17 @@ class Project_Controller implements Project_Controller_Interface {
 			 */
 			$processed_estates = array();
 
-			$categories = Helper::get_term_meta_by_key( 'estate-category', array( '_category_id', '_subcategory_id' ) );
+			$categories = helper::get_term_meta_by_key( 'estate-category', array( '_category_id', '_subcategory_id' ) );
 
 			$this->log->info( count( $this->estates ) . ' projects will be processed.' );
 
-			foreach ( Helper::generator( $this->estates ) as $whise_estate ) {
+			foreach (helper::generator( $this->estates ) as $whise_estate ) {
 				/**
 				 * Rename class to \wp_whise\model\Whise_Project
 				 *
 				 * @var \wp_whise\model\Whise_Project
 				 */
-				$whise_estate = Helper::objectToObject( $whise_estate, 'wp_whise\model\Whise_Project' );
+				$whise_estate = helper::objectToObject( $whise_estate, 'wp_whise\model\Whise_Project' );
 
 				/**
 				 * Set logger

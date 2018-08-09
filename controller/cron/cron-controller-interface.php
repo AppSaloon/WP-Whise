@@ -6,7 +6,7 @@ use wp_whise\controller\log\Database_Log_Controller;
 use wp_whise\controller\Whise_Controller;
 use wp_whise\controller\Whise_Controller_Interface;
 use wp_whise\lib\Container;
-use wp_whise\lib\Helper;
+use wp_whise\lib\helper;
 
 Interface Cron_Controller_Interface {
 
