@@ -9,7 +9,7 @@ class Team_Cpt_Config {
 	 *
 	 * @since 1.0.0
 	 */
-	CONST POST_TYPE = 'team';
+	CONST POST_TYPE = 'c';
 
 	/**
 	 * Team_Cpt_Config constructor.
@@ -31,7 +31,7 @@ class Team_Cpt_Config {
 	protected function register_taxonomy() {
 		register_taxonomy(
 			'teamname',
-			'post',
+			'team',
 			array(
 				'hierarchical' => true,
 				'label' => __('Teamname'),
