@@ -80,7 +80,7 @@ class Project_Cpt_Config {
 			'publicly_queryable' => true,
 			'show_ui'            => true,
 			'query_var'          => true,
-			'rewrite'            => false,
+            'rewrite'           => array('slug' => 'projecten'),
 			'has_archive'        => true,
 			'capability_type'    => 'post',
 			'hierarchical'       => false,
