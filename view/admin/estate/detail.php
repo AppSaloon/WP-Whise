@@ -23,6 +23,14 @@ $project->set_post( $post->ID );
     </tr>
 
     <tr>
+        <th scope="row"><label for="price"><?php _e( 'Estate price', 'wp_whise' ); ?></label></th>
+        <td>
+            <input name="_price" type="text" id="price" value="<?php echo $project->get_meta('_price'); ?>" class="regular-text">
+            <p class="description" id="tagline-description"><?php _e( 'The Estate Price in Whise.', 'wp_whise' ); ?></p>
+        </td>
+    </tr>
+
+    <tr>
         <th scope="row"><label for="address"><?php _e( 'Address', 'wp_whise' ); ?></label></th>
         <td>
             <input name="_address" type="text" id="address" value="<?php echo $project->get_meta('_address'); ?>" class="regular-text">
