@@ -9,7 +9,7 @@ class Team_Cpt_Config {
 	 *
 	 * @since 1.0.0
 	 */
-	CONST POST_TYPE = 'c';
+	CONST POST_TYPE = 'team';
 
 	/**
 	 * Team_Cpt_Config constructor.
