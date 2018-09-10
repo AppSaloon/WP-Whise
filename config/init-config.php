@@ -28,8 +28,8 @@ class Init_Config {
 
 		add_action( 'init', array( $this, 'register_post_type_and_taxonomies' ) );
 
-		//add_action( 'whise_integration', array( $this, 'whise_integration' ) );
-        add_action( 'admin_init', array( $this, 'whise_integration' ) );
+		add_action( 'whise_integration', array( $this, 'whise_integration' ) );
+        //add_action( 'admin_init', array( $this, 'whise_integration' ) );
 
 
         add_action( 'admin_menu', array( $this, 'add_admin_menu' ) );
