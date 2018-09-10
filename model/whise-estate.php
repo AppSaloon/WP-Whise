@@ -89,8 +89,8 @@ class Whise_Estate {
 		$query  = "select * from $wpdb->postmeta where meta_key = '_estate_id' AND meta_value='" . $this->get_estate_id() . "'";
 		$result = $wpdb->get_results( $query );
 
-		if ( is_array( $result ) && sizeof( $result ) == 1 ) {
-			$response = $result[0]->post_id;
+		if ( is_array( $result ) && sizeof( $result ) > 0 ) {
+			$response = (int) $result[0]->post_id;
 		}
 
 		return $response;

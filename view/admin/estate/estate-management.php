@@ -46,10 +46,10 @@ $team_link    = false;
         <option value=""><?php _e( 'Choose Project', 'wp_whise' ); ?></option>
 
 		<?php foreach ( $projects as $project ): ?>
-			<?php if ( $project->meta_value == $parent_id ): ?>
+			<?php if ( $project->meta_value == $parent_id || $project->post_id == $parent_id ): ?>
 				<?php $project_link = get_edit_post_link( $project->ID ); ?>
 			<?php endif; ?>
-            <option value="<?php echo $project->ID; ?>" <?php echo ( $project->meta_value == $parent_id ) ? 'selected="selected"' : ''; ?>><?php echo $project->post_title; ?></option>
+            <option value="<?php echo $project->ID; ?>" <?php echo ( $project->meta_value == $parent_id || $project->post_id == $parent_id ) ? 'selected="selected"' : ''; ?>><?php echo $project->post_title; ?></option>
 		<?php endforeach; ?>
     </select>
 

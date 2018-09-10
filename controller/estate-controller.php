@@ -76,7 +76,7 @@ class Estate_Controller implements Estate_Controller_Interface {
 				/**
 				 * Checks if the estate exists
 				 */
-				if ( $post_id = $whise_estate->does_post_exist() ) {
+				if ( $post_id = $whise_estate->does_post_exist() !== false ) {
 					/**
 					 * Update existing estate
 					 */
