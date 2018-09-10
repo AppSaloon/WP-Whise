@@ -3,7 +3,7 @@
 namespace wp_whise\controller;
 
 use wp_whise\controller\log\Log_Controller_Interface;
-use wp_whise\lib\helper;
+use wp_whise\lib\Helper;
 
 class Category_Controller implements Category_Controller_Interface {
 
@@ -38,12 +38,12 @@ class Category_Controller implements Category_Controller_Interface {
 	public function process() {
 		if ( false !== $this->categories && is_array( $this->categories ) && isset( $this->categories[0] ) ) {
 
-			foreach (helper::generator( $this->categories ) as $category ) {
+			foreach (Helper::generator( $this->categories ) as $category ) {
 
 				$parent_id = $this->insert_term( $category->Name );
 
 				if ( isset( $category->SubCategoryList ) && count( $category->SubCategoryList ) != 0 ) {
-					foreach (helper::generator( $category->SubCategoryList ) as $sub_category ) {
+					foreach (Helper::generator( $category->SubCategoryList ) as $sub_category ) {
 						$term_id = $this->insert_term( $sub_category->Name, $parent_id );
 
 						update_term_meta( $term_id, '_subcategory_id', $sub_category->SubCategoryId );

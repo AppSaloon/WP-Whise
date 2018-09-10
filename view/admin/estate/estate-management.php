@@ -3,7 +3,7 @@
 namespace wp_whise\view\admin\project;
 
 use wp_whise\model\Estate;
-use wp_whise\lib\helper;
+use wp_whise\lib\Helper;
 
 global $post;
 
@@ -15,9 +15,9 @@ $parent_id = $estate->get_meta_by_key( '_parent_id' );
 
 $team_id = $estate->get_meta_by_key( '_team_id' );
 
-$projects = helper::get_projects();
+$projects = Helper::get_projects();
 
-$teams = helper::get_teams();
+$teams = Helper::get_teams();
 
 $project_link = false;
 $team_link    = false;

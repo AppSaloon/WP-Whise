@@ -4,7 +4,7 @@ namespace wp_whise\model;
 
 use wp_whise\config\cpt\Estate_Cpt_Config;
 use wp_whise\controller\log\Log_Controller_Interface;
-use wp_whise\lib\helper;
+use wp_whise\lib\Helper;
 
 class Whise_Estate {
 
@@ -200,14 +200,14 @@ class Whise_Estate {
 		$this->update_meta( '_office', $this->Office );
 		$this->update_meta( '_client', $this->Client );
 		$this->update_meta( '_currency', $this->Currency );
-		$this->update_meta( '_created', helper::get_date_time( $this->CreateDateTime ) );
-		$this->update_meta( '_updated', helper::get_date_time( $this->UpdateDateTime ) );
-		$this->update_meta( '_price_updated', helper::get_date_time( $this->PriceChangeDateTime ) );
+		$this->update_meta( '_created', Helper::get_date_time( $this->CreateDateTime ) );
+		$this->update_meta( '_updated', Helper::get_date_time( $this->UpdateDateTime ) );
+		$this->update_meta( '_price_updated', Helper::get_date_time( $this->PriceChangeDateTime ) );
 		$this->update_meta( '_availability', $this->Availability );
 		$this->update_meta( '_status', $this->Status );
 		$this->update_meta( '_reference_number', $this->ReferenceNumber );
-		$this->update_meta( '_sold_rent_date', helper::get_date_time( $this->SoldRentDate ) );
-		$this->update_meta( '_put_online_datetime', helper::get_date_time( $this->PutOnlineDateTime ) );
+		$this->update_meta( '_sold_rent_date', Helper::get_date_time( $this->SoldRentDate ) );
+		$this->update_meta( '_put_online_datetime', Helper::get_date_time( $this->PutOnlineDateTime ) );
 		$this->update_meta( '_energy_class', $this->EnergyClass );
 		$this->update_meta( '_energy_value', $this->EnergyValue );
 		$this->update_meta( '_floor', $this->Floor );
@@ -220,7 +220,7 @@ class Whise_Estate {
 		$this->update_meta( '_furnished', $this->Furnished );
 		$this->update_meta( '_garden', $this->Garden );
 		$this->update_meta( '_garden_area', $this->GardenArea );
-		$this->update_meta( '_availability_datetime', helper::get_date_time( $this->AvailabilityDateTime ) );
+		$this->update_meta( '_availability_datetime', Helper::get_date_time( $this->AvailabilityDateTime ) );
 		$this->update_meta( '_parent_id', $this->ParentID );
 	}
 
@@ -264,13 +264,13 @@ class Whise_Estate {
 		if ( isset( $this->Pictures ) && is_array( $this->Pictures ) ) {
 			$gallery_ids = array();
 
-			foreach (helper::generator( $this->Pictures ) as $picture ) {
+			foreach (Helper::generator( $this->Pictures ) as $picture ) {
 				$split     = explode( '/', $picture->UrlXXL );
 				$file_name = end( $split );
 
-				if ( ! $gallery_id = helper::does_attachment_exist( $file_name ) ) {
+				if ( ! $gallery_id = Helper::does_attachment_exist( $file_name ) ) {
 					$this->log->info( $file_name . ' does not exist, so we are uploading the image.' );
-					$gallery_ids[] = helper::upload_image_to_wordpress( $file_name, $picture->UrlXXL, $this->post_id );
+					$gallery_ids[] = Helper::upload_image_to_wordpress( $file_name, $picture->UrlXXL, $this->post_id );
 				} else {
 					$this->log->info( $file_name . ' does exist, so we are not uploading the image again.' );
 					$gallery_ids[] = $gallery_id;
@@ -294,13 +294,13 @@ class Whise_Estate {
 		if ( isset( $this->Documents ) && is_array( $this->Documents ) ) {
 			$document_ids = array();
 
-			foreach (helper::generator( $this->Documents ) as $document ) {
+			foreach (Helper::generator( $this->Documents ) as $document ) {
 				$split     = explode( '/', $document->Url );
 				$file_name = end( $split );
 
-				if ( ! $gallery_id = helper::does_attachment_exist( $file_name ) ) {
+				if ( ! $gallery_id = Helper::does_attachment_exist( $file_name ) ) {
 					$this->log->info( $file_name . ' does not exist, so we are uploading the document.' );
-					$document_ids[] = helper::upload_image_to_wordpress( $file_name, $document->Url, $this->post_id );
+					$document_ids[] = Helper::upload_image_to_wordpress( $file_name, $document->Url, $this->post_id );
 				} else {
 					$this->log->info( $file_name . ' does exist, so we are not uploading the document again.' );
 					$document_ids[] = $gallery_id;
