@@ -78,5 +78,21 @@ $project->set_post( $post->ID );
         </td>
     </tr>
 
+    <tr>
+        <th scope="row"><label for="status"><?php _e( 'Status', 'wp_whise' ); ?></label></th>
+        <td>
+            <input name="_status" type="text" id="status" value="<?php echo $project->get_meta('_status'); ?>" class="regular-text">
+            <p class="description" id="tagline-description"><?php _e( 'The project status.', 'wp_whise' ); ?></p>
+        </td>
+    </tr>
+
+    <tr>
+        <th scope="row"><label for="program"><?php _e( 'Program', 'wp_whise' ); ?></label></th>
+        <td>
+            <input name="_program" type="text" id="program" value="<?php echo $project->get_meta('_program'); ?>" class="regular-text">
+            <p class="description" id="tagline-description"><?php _e( 'The project program.', 'wp_whise' ); ?></p>
+        </td>
+    </tr>
+
     </tbody>
 </table>
