@@ -67,6 +67,7 @@ class Init_Config {
 	 */
 	public function register_post_type_and_taxonomies() {
 		$this->register_estate_category_taxonomy();
+		$this->register_status_category_taxonomy();
 		$this->load_project_cpt();
 		$this->load_estate_cpt();
 		$this->load_team_cpt();
@@ -100,7 +101,34 @@ class Init_Config {
 		register_taxonomy( 'estate-category', array( 'estate', 'project' ), $args );
 	}
 
-	/**
+    protected function register_status_category_taxonomy() {
+        $labels = array(
+            'name'              => _x( 'Status', 'taxonomy general name', 'wp_whise' ),
+            'singular_name'     => _x( 'Status', 'taxonomy singular name', 'wp_whise' ),
+            'search_items'      => __( 'Search Status', 'wp_whise' ),
+            'all_items'         => __( 'All Status', 'wp_whise' ),
+            'parent_item'       => __( 'Parent Status', 'wp_whise' ),
+            'parent_item_colon' => __( 'Parent Status:', 'wp_whise' ),
+            'edit_item'         => __( 'Edit Status', 'wp_whise' ),
+            'update_item'       => __( 'Update Status', 'wp_whise' ),
+            'add_new_item'      => __( 'Add New Status', 'wp_whise' ),
+            'new_item_name'     => __( 'New Status Name', 'wp_whise' ),
+            'menu_name'         => __( 'Status', 'wp_whise' ),
+        );
+
+        $args = array(
+            'hierarchical'      => true,
+            'labels'            => $labels,
+            'show_ui'           => true,
+            'show_admin_column' => true,
+            'query_var'         => true,
+        );
+
+        register_taxonomy( 'status-category', array( 'estate', 'project' ), $args );
+    }
+
+
+    /**
 	 * Load project custom post type
 	 *
 	 * @since 1.0.0
