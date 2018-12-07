@@ -47,6 +47,19 @@ class Project_Cpt_Config {
 				'media-models'
 			), WP_WHISE_VERSION );
 
+            wp_register_script( 'whise-search-image-js', WP_WHISE_URL . 'js/admin/search_image.js' , array(
+                'media-models',
+                'jquery'
+            ), WP_WHISE_VERSION  );
+            wp_localize_script( 'whise-search-image-js', 'meta_image',
+                array(
+                    'title' => __( 'Choose or Upload Media', 'events' ),
+                    'button' => __( 'Use this media', 'events' ),
+                )
+            );
+            wp_enqueue_script( 'whise-search-image-js');
+
+
 			wp_enqueue_style( 'whise-estate-css', WP_WHISE_URL . 'css/admin/estate.css' );
 		}
 	}
@@ -85,7 +98,8 @@ class Project_Cpt_Config {
 			'capability_type'    => 'post',
 			'hierarchical'       => false,
 			'taxonomies'         => array(),
-			'supports'           => array( 'title', 'thumbnail', 'editor', 'excerpt' )
+			'supports'           => array( 'title', 'thumbnail', 'editor', 'excerpt' ),
+            'show_in_rest'       => true
 		);
 
 		register_post_type( static::POST_TYPE, $args_project );
@@ -117,6 +131,11 @@ class Project_Cpt_Config {
         add_meta_box( 'project-management', __( 'Management', 'wp_whise' ), array(
             $this,
             'project_management_meta_box'
+        ), static::POST_TYPE, 'side', 'low' );
+
+        add_meta_box( 'project-image', __( 'Search image', 'wp_whise' ), array(
+            $this,
+            'project_image_meta_box'
         ), static::POST_TYPE, 'side', 'low' );
 	}
 
@@ -218,5 +237,16 @@ class Project_Cpt_Config {
      */
     public function project_management_meta_box( $post ) {
         include_once WP_WHISE_DIR . 'view/admin/estate/project-management.php';
+    }
+
+    /**
+     * Display parent meta box to select teammember
+     *
+     * @param $post
+     *
+     * @since 1.0.0
+     */
+    public function project_image_meta_box( $post ) {
+        include_once WP_WHISE_DIR . 'view/admin/project/image.php';
     }
 }
