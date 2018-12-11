@@ -55,7 +55,8 @@ class Estate_Cpt_Config {
 			'capability_type'    => 'post',
 			'hierarchical'       => false,
 			'taxonomies'         => array(),
-			'supports'           => array( 'title', 'thumbnail', 'editor', 'excerpt' )
+			'supports'           => array( 'title', 'thumbnail', 'editor', 'excerpt' ),
+            'show_in_rest'       => true
 		);
 
 		register_post_type( static::POST_TYPE, $args_sale );
