@@ -97,7 +97,7 @@ class Project_Cpt_Config {
 			'has_archive'        => true,
 			'capability_type'    => 'post',
 			'hierarchical'       => false,
-			'taxonomies'         => array(),
+			'taxonomies'         => array( 'estate-category', 'category' ),
 			'supports'           => array( 'title', 'thumbnail', 'editor', 'excerpt' ),
             'show_in_rest'       => true
 		);

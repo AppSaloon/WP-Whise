@@ -66,12 +66,12 @@ class Init_Config {
 	 * @since 1.0.0
 	 */
 	public function register_post_type_and_taxonomies() {
-		$this->register_estate_category_taxonomy();
-		$this->register_status_category_taxonomy();
 		$this->load_project_cpt();
 		$this->load_estate_cpt();
 		$this->load_team_cpt();
 		$this->load_project_settings_config();
+        $this->register_estate_category_taxonomy();
+        $this->register_status_category_taxonomy();
 	}
 
 	protected function register_estate_category_taxonomy() {
@@ -96,6 +96,7 @@ class Init_Config {
 			'show_admin_column' => true,
 			'query_var'         => true,
 			'rewrite'           => array( 'slug' => 'genre' ),
+            'show_in_rest'       => true
 		);
 
 		register_taxonomy( 'estate-category', array( 'estate', 'project' ), $args );
@@ -122,6 +123,7 @@ class Init_Config {
             'show_ui'           => true,
             'show_admin_column' => true,
             'query_var'         => true,
+            'show_in_rest'       => true
         );
 
         register_taxonomy( 'status-category', array( 'estate', 'project' ), $args );
